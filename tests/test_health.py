@@ -236,3 +236,30 @@ def test_positive_check_upstream_repository(ansible_module):
         path='/etc/yum.repos.d/upstream_repo.repo',
         state='absent')
     assert teardown.values()[0]["changed"] == 1
+
+
+def test_positive_automate_bz1632768(ansible_module):
+    """Verify that health check is performed when
+     hammer on system have defaults set
+
+    :id: 27a8b49b-8cb8-4004-ba41-36ed084c4740
+
+    :setup:
+        1. foreman-maintain should be installed.
+
+    :steps:
+        1. Setup hammer on system with defaults set
+
+        2. Run foreman-maintain health check
+
+    :expectedresults: Health check should perform.
+
+    :CaseImportance: Critical
+    """
+    ansible_module.command(
+        "hammer defaults add --param-name organization_id --param-value 1")
+    contacted = ansible_module.command(Health.check())
+    for result in contacted.values():
+        logger.info(result['stdout'])
+        assert "FAIL" not in result['stdout']
+        assert result['rc'] == 0
