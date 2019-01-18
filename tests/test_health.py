@@ -260,3 +260,77 @@ def test_positive_available_space(ansible_module):
         logger.info(result['stdout'])
         assert "FAIL" not in result['stdout']
         assert result['rc'] == 0
+
+
+def test_positive_check_hotfix_installed(ansible_module):
+    """Verify check-hotfix-installed check
+
+    :id: 3b6fbf3a-5c78-4283-996e-ca8da88a5d1b
+
+    :setup:
+        1. foreman-maintain should be installed.
+
+    :steps:
+        1. Run foreman-maintain health check --label check-hotfix-installed
+
+    :expectedresults: Health check should perform.
+
+    :CaseImportance: Critical
+    """
+    setup = ansible_module.yum(
+        name=['python-kitchen', 'yum-utils'],
+        state='present')
+    for result in setup.values():
+        assert result['rc'] == 0
+    contacted = ansible_module.command(Health.check({
+        'label': 'check-hotfix-installed'
+    }))
+    for result in contacted.values():
+        logger.info(result['stdout'])
+        assert "WARNING" not in result['stdout']
+        assert result['rc'] == 0
+
+
+def test_positive_check_hotfix_installed_with_file_changed(ansible_module):
+    """Verify check-hotfix-installed check
+
+    :id: d9023293-4173-4223-bbf5-328b41cf87cd
+
+    :setup:
+        1. foreman-maintain should be installed..
+        2. modify some files of satellite
+        3. Install python-kitchen, yum-utils packages
+
+    :steps:
+        1. Run foreman-maintain health check --label check-hotfix-installed
+
+    :expectedresults: Health check should perform.
+
+    :CaseImportance: Critical
+    """
+    file = ansible_module.find(
+        paths='/opt/theforeman/tfm/root/usr/share/gems/gems/',
+        patterns='fog-vsphere-*',
+        file_type='directory')
+    dpath = file.values()[0]['files'][0]['path']
+    fpath = dpath + '/lib/fog/vsphere/requests/compute/list_clusters.rb'
+    ansible_module.lineinfile(
+        dest=fpath,
+        insertafter='EOF',
+        line="#modifying_file")
+    setup = ansible_module.yum(
+        name=['python-kitchen', 'yum-utils'],
+        state='present')
+    for result in setup.values():
+        assert result['rc'] == 0
+    contacted = ansible_module.command(Health.check({
+        'label': 'check-hotfix-installed'
+    }))
+    for result in contacted.values():
+        logger.info(result['stdout'])
+        assert "WARNING" in result['stdout']
+        assert result['rc'] == 1
+    teardown = ansible_module.command(
+        'yum -y reinstall tfm-rubygem-fog-vsphere')
+    for result in teardown.values():
+        assert result['rc'] == 0
