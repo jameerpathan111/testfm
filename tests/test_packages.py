@@ -47,15 +47,6 @@ def test_positive_foreman_maintain_packages_lock(setup_install_pkgs, ansible_mod
     for result in contacted.values():
         logger.info(result['stdout'])
         assert 'satellite' in result['stdout']
-    contacted = ansible_module.shell("yum repolist")
-    for result in contacted.values():
-        logger.info(result['stdout'])
-        sat_pkgs = int(contacted.values()[0]['stdout_lines'][-1][-3:])
-    contacted = ansible_module.shell("yum versionlock list | wc -l")
-    for result in contacted.values():
-        logger.info(result['stdout'])
-        assert int(result['stdout']) == sat_pkgs, 'number of packages locked is not ' \
-                                                  'equal to packages provided by satellite repo'
 
     contacted = ansible_module.command(Packages.unlock())
     for result in contacted.values():

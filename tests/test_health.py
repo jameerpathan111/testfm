@@ -1,4 +1,3 @@
-from testfm.decorators import stubbed
 from testfm.health import Health
 from testfm.log import logger
 
@@ -84,7 +83,7 @@ def test_positive_foreman_maintain_health_check(ansible_module):
 
     :CaseImportance: Critical
     """
-    contacted = ansible_module.command(Health.check())
+    contacted = ansible_module.command(Health.check(['--assumeyes']))
     for result in contacted.values():
         logger.info(result['stdout'])
         assert "FAIL" not in result['stdout']
@@ -136,7 +135,7 @@ def test_positive_check_hammer_ping(ansible_module):
     :CaseImportance: Critical
     """
     contacted = ansible_module.command(Health.check({
-        'label': 'hammer-ping'
+        'label': 'server-ping'
     }))
     for result in contacted.values():
         logger.info(result['stdout'])
@@ -161,7 +160,7 @@ def test_negative_check_hammer_ping(setup_katello_service_stop, ansible_module):
     :CaseImportance: Critical
     """
     contacted = ansible_module.command(Health.check({
-        'label': 'hammer-ping'
+        'label': 'server-ping'
     }))
     for result in contacted.values():
         logger.info(result['stdout'])
@@ -191,7 +190,6 @@ def test_positive_pre_upgrade_health_check(ansible_module):
         assert "FAIL" not in result['stdout']
 
 
-@stubbed
 def test_positive_check_upstream_repository(setup_upstream_repository, ansible_module):
     """Verify upstream repository check
 
@@ -267,7 +265,6 @@ def test_positive_automate_bz1632768(ansible_module):
         assert result['rc'] == 0
 
 
-@stubbed
 def test_positive_puppet_check_no_empty_cert_requests(ansible_module):
     """Verify puppet-check-no-empty-cert-requests
 
@@ -291,7 +288,6 @@ def test_positive_puppet_check_no_empty_cert_requests(ansible_module):
         assert result['rc'] == 0
 
 
-@stubbed
 def test_positive_puppet_check_empty_cert_requests(setup_puppet_empty_cert, ansible_module):
     """Verify puppet-check-no-empty-cert-requests
 
