@@ -1,7 +1,9 @@
 from testfm.health import Health
 from testfm.log import logger
+from testfm.decorators import capsule
 
 
+@capsule
 def test_positive_foreman_maintain_health_list(ansible_module):
     """List health check in foreman-maintain
 
@@ -23,6 +25,7 @@ def test_positive_foreman_maintain_health_list(ansible_module):
         assert result["rc"] == 0
 
 
+@capsule
 def test_positive_foreman_maintain_health_list_tags(ansible_module):
     """List tags for health check in foreman-maintain
 
@@ -44,6 +47,7 @@ def test_positive_foreman_maintain_health_list_tags(ansible_module):
         assert result["rc"] == 0
 
 
+@capsule
 def test_positive_list_health_check_by_tags(ansible_module):
     """List health check in foreman-maintain by tags
 
@@ -68,6 +72,7 @@ def test_positive_list_health_check_by_tags(ansible_module):
             assert result["rc"] == 0
 
 
+@capsule
 def test_positive_foreman_maintain_health_check(ansible_module):
     """Verify foreman-maintain health check
 
@@ -90,6 +95,7 @@ def test_positive_foreman_maintain_health_check(ansible_module):
         assert "FAIL" not in result['stdout']
 
 
+@capsule
 def test_positive_foreman_maintain_health_check_by_tags(ansible_module):
     """Verify foreman-maintain health check by tags
 
@@ -120,6 +126,7 @@ def test_positive_foreman_maintain_health_check_by_tags(ansible_module):
             assert result['rc'] == 0
 
 
+@capsule
 def test_positive_check_server_ping(ansible_module):
     """Verify server ping check
 
@@ -143,6 +150,7 @@ def test_positive_check_server_ping(ansible_module):
         assert "FAIL" not in result['stdout']
 
 
+@capsule
 def test_negative_check_server_ping(setup_katello_service_stop, ansible_module):
     """Verify hammer ping check
 
@@ -168,6 +176,7 @@ def test_negative_check_server_ping(setup_katello_service_stop, ansible_module):
         assert "FAIL" in result['stdout']
 
 
+@capsule
 def test_positive_pre_upgrade_health_check(ansible_module):
     """Verify pre-upgrade health checks
 
@@ -191,6 +200,7 @@ def test_positive_pre_upgrade_health_check(ansible_module):
         assert "FAIL" not in result['stdout']
 
 
+@capsule
 def test_positive_check_upstream_repository(setup_upstream_repository, ansible_module):
     """Verify upstream repository check
 
@@ -215,6 +225,7 @@ def test_positive_check_upstream_repository(setup_upstream_repository, ansible_m
         assert result['rc'] == 0
 
 
+@capsule
 def test_positive_available_space(ansible_module):
     """Verify available-space check
 
@@ -239,6 +250,7 @@ def test_positive_available_space(ansible_module):
         assert result['rc'] == 0
 
 
+@capsule
 def test_positive_automate_bz1632768(ansible_module):
     """Verify that health check is performed when
      hammer on system have defaults set.
@@ -266,6 +278,7 @@ def test_positive_automate_bz1632768(ansible_module):
         assert result['rc'] == 0
 
 
+@capsule
 def test_positive_puppet_check_no_empty_cert_requests(ansible_module):
     """Verify puppet-check-no-empty-cert-requests
 
@@ -289,6 +302,7 @@ def test_positive_puppet_check_no_empty_cert_requests(ansible_module):
         assert result['rc'] == 0
 
 
+@capsule
 def test_positive_puppet_check_empty_cert_requests(setup_puppet_empty_cert, ansible_module):
     """Verify puppet-check-no-empty-cert-requests
 
@@ -323,6 +337,7 @@ def test_positive_puppet_check_empty_cert_requests(setup_puppet_empty_cert, ansi
     assert contacted.values()[0]['matched'] == 0
 
 
+@capsule
 def test_positive_check_hotfix_installed(setup_hotfix_check, setup_install_pkgs, ansible_module):
     """Verify check-hotfix-installed check.
 
@@ -354,6 +369,7 @@ def test_positive_check_hotfix_installed(setup_hotfix_check, setup_install_pkgs,
         assert result['rc'] == 1
 
 
+@capsule
 def test_positive_check_hotfix_installed_without_hotfix(setup_install_pkgs, ansible_module):
     """Verify check-hotfix-installed check.
 
@@ -379,6 +395,7 @@ def test_positive_check_hotfix_installed_without_hotfix(setup_install_pkgs, ansi
         assert result['rc'] == 0
 
 
+@capsule
 def test_positive_check_yum_exclude_list(setup_yum_exclude, ansible_module):
     """Verify check-yum-exclude-list
 
@@ -407,6 +424,7 @@ def test_positive_check_yum_exclude_list(setup_yum_exclude, ansible_module):
         assert result["rc"] == 1
 
 
+@capsule
 def test_positive_check_yum_exclude_list_without_excludes(ansible_module):
     """Verify check-yum-exclude-list
 

@@ -12,6 +12,7 @@ from testfm.decorators import capsule, stubbed
 from testfm.log import logger
 
 
+@capsule
 def test_positive_foreman_maintain_service_restart(ansible_module):
     """Restart service using advanced procedure run
 
@@ -97,6 +98,7 @@ def test_positive_foreman_maintain_packages_update(ansible_module):
         assert "FAIL" not in result['stdout']
 
 
+@capsule
 def test_positive_foreman_taks_delete_old(ansible_module):
     """Delete old foreman-tasks using advanced procedure run
 
@@ -121,6 +123,7 @@ def test_positive_foreman_taks_delete_old(ansible_module):
         assert "FAIL" not in result['stdout']
 
 
+@capsule
 def test_positive_foreman_taks_delete_planning(ansible_module):
     """Delete planning foreman-tasks using advanced procedure run
 
@@ -145,6 +148,7 @@ def test_positive_foreman_taks_delete_planning(ansible_module):
         assert "FAIL" not in result['stdout']
 
 
+@capsule
 def test_positive_foreman_taks_delete_pending(ansible_module):
     """Delete pending foreman-tasks using advanced procedure run
 
@@ -265,6 +269,7 @@ def test_positive_sync_plan_disable_enable(setup_sync_plan, ansible_module):
     assert sorted(sync_ids) == sorted(data_yml[':default'][':sync_plans'][':enabled'])
 
 
+@capsule
 def test_positive_procedure_by_tag_check_migrations(ansible_module):
     """Run pre-migrations and post-migrations using advanced
     procedure by-tag

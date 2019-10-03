@@ -1,7 +1,9 @@
 from testfm.log import logger
+from testfm.decorators import capsule
 from testfm.upgrade import Upgrade
 
 
+@capsule
 def test_positive_foreman_maintain_upgrade_list(ansible_module):
     """List versions this system is upgradable to
 

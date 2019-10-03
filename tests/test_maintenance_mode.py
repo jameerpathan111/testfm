@@ -1,8 +1,10 @@
 from testfm.maintenance_mode import MaintenanceMode
 from testfm.log import logger
 import yaml
+from testfm.decorators import capsule
 
 
+@capsule
 def test_positive_maintenance_mode(setup_sync_plan, ansible_module):
     """Test foreman-maintain maintenance-mode subcommand
 
