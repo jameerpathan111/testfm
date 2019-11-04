@@ -359,6 +359,7 @@ def test_positive_sync_plan_with_hammer_defaults(setup_for_hammer_defaults, ansi
         assert result['rc'] == 0
 
 
+@stubbed
 def test_positive_repositories_setup(setup_subscribe_to_cdn_dogfood, ansible_module):
     """Verify that all required repositories gets enabled.
 
@@ -404,6 +405,7 @@ def test_positive_repositories_setup(setup_subscribe_to_cdn_dogfood, ansible_mod
                             assert repo in result['stdout']
 
 
+@stubbed
 def test_positive_beta_repositories(setup_subscribe_to_cdn_dogfood, ansible_module):
     """Verify that all required beta repositories gets enabled.
 

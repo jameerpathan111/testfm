@@ -1,4 +1,4 @@
-from testfm.decorators import starts_in
+from testfm.decorators import starts_in, stubbed
 from testfm.helpers import run
 from testfm.packages import Packages
 from testfm.log import logger
@@ -134,6 +134,7 @@ def test_positive_lock_package_versions(ansible_module):
         assert result["rc"] == 0
 
 
+@stubbed
 def test_positive_fm_packages_install(ansible_module):
     """Verify whether packages install/update work as expected.
 
